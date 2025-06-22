@@ -2,17 +2,124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily Message</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Everyday message</title>
+  <style>
+    body {
+      background: radial-gradient(#0a0a23, #000);
+      color: #ffeef8;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 500px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 192, 203, 0.3);
+      animation: floatIn 1.8s ease;
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #ffb6c1;
+      animation: glow 1.8s ease-in-out infinite alternate;
+    }
+
+    #message {
+      font-size: 1.2em;
+      margin-top: 30px;
+      line-height: 1.5em;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 1s;
+    }
+
+    @keyframes floatIn {
+      0% {
+        transform: scale(0.9) translateY(50px);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff; }
+      to { text-shadow: 0 0 20px #ff69b4; }
+    }
+
+    .back-link {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      color: #ccc;
+      text-decoration: none;
+      font-size: 1em;
+    }
+  </style>
 </head>
-<body style="background:black; color:white; padding:20px">
-  <a href="index.html" style="color:white; text-decoration:none;">← Back</a>
-  <h1>🗓️ Daily Message</h1>
-  <p>Today’s message for my universe:</p>
-  <blockquote style="margin-top: 15px; font-style: italic;">
-    You’re not just the moon of my night,  
-    You are the gravity that holds me right.  
-  </blockquote>
+<body>
+  <a href="index.html" class="back-link">← Back</a>
+  <div class="container">
+    <h1>🌠 Everyday message</h1>
+    <div id="message">Checking the stars...</div>
+  </div>
+
+  <script>
+    const messages = {
+      "2025-06-22": "You better stop being this cute — I’m running out of ways to stay normal around you.",
+      "2025-06-23": "Warning: Hugging me today might cause excessive happiness (and maybe some blushing)",
+      "2025-06-24": "Even the moon envies the way you light up my world.",
+      "2025-06-25": "You're not just a part of my day—you are the whole sky.",
+      "2025-06-26": "When the world is silent, I still hear your heartbeat.",
+      "2025-06-27": "You + Me = A galaxy in motion.",
+      "2025-06-28": "No telescope could ever find what we have.",
+      "2025-06-29": "You're my favorite constellation.",
+      "2025-06-30": "Even a black hole couldn't suck away how much I love you.",
+      "2025-07-01": "Every second without you is a shooting star missed.",
+      "2025-07-02": "You're the reason time slows down when I smile.",
+      "2025-07-03": "One month with you is worth more than a thousand lifetimes without.",
+      "2025-07-04": "You make gravity optional. I float when you're near.",
+      "2025-07-05": "Hearts like ours bend time.",
+      "2025-07-06": "You’re the center of my orbit.",
+      "2025-07-07": "My love isn’t just infinite—it’s expanding.",
+      "2025-07-08": "Even stars would burn out for a glimpse of your smile.",
+      "2025-07-09": "If wishes were real, you’re all of mine granted.",
+      "2025-07-10": "The universe conspired beautifully the day I met you.",
+      "2025-07-11": "I’d trade galaxies for a hug from you.",
+      "2025-07-12": "You're not written in my stars. You are the stars.",
+      "2025-07-13": "Let’s stay in each other’s gravity—forever.",
+      "2025-07-14": "The night’s calm because you're in it.",
+      "2025-07-15": "Every moment with you is a cosmic miracle.",
+      "2025-07-16": "You're the telescope to my soul.",
+      "2025-07-17": "No science can explain how much I adore you.",
+      "2025-07-18": "Even Saturn’s rings can’t match your elegance.",
+      "2025-07-19": "Your laugh is the music of the cosmos.",
+      "2025-07-20": "To love you is to believe in magic.",
+      "2025-07-21": "Every day with you is a discovery of the divine."
+    };
+
+    const today = new Date().toISOString().split('T')[0];
+    const msgBox = document.getElementById("message");
+
+    if (messages[today]) {
+      msgBox.innerText = messages[today];
+    } else {
+      msgBox.innerText = "🌌 No whisper from the stars today. Come back tomorrow.";
+    }
+  </script>
 </body>
 </html>
