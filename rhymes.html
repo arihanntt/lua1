@@ -5,16 +5,182 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rhymes for Her</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .rhyme-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .rhyme-card {
+      width: 90%;
+      max-width: 500px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 12px;
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .rhyme-card:hover {
+      background: #2a2a2a;
+      transform: scale(1.02);
+    }
+
+    .rhyme-title {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .rhyme-preview {
+      font-size: 1em;
+      color: #ccc;
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    /* Lightbox for full rhyme view */
+    .rhyme-viewer {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .rhyme-viewer.active {
+      display: flex;
+    }
+
+    .rhyme-viewer h2 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+
+    .rhyme-viewer pre {
+      white-space: pre-wrap;
+      font-family: inherit;
+      color: #eee;
+      max-width: 600px;
+    }
+
+    .rhyme-viewer audio {
+      margin: 20px 0;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .close-rhyme {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #fff;
+      cursor: pointer;
+      padding: 10px 20px;
+      border: 1px solid white;
+      border-radius: 8px;
+      background: transparent;
+      transition: background 0.3s;
+    }
+
+    .close-rhyme:hover {
+      background: white;
+      color: black;
+    }
+  </style>
 </head>
-<body style="background:black; color:white; padding:20px">
-  <a href="index.html" style="color:white; text-decoration:none;">← Back</a>
-  <h1>🎶 Rhymes for Her</h1>
-  <audio controls src="sample.mp3" style="width: 100%; margin-top: 10px;"></audio>
-  <pre style="margin-top: 10px;">
-Every night I see your light,  
-Glowing in my darkest sky.  
-You're the rhyme inside my heart,  
-Loving you's my sweetest art.
-  </pre>
+<body class="page-container">
+  <a href="index.html" class="back-link">← Back</a>
+  <h1>🎶 Rhymes for my baby</h1>
+  <p>Click on any rhyme to listen.</p>
+
+  <div class="rhyme-list">
+    <div class="rhyme-card" data-title="Twinkle Twinkle" data-audio="rhyme1.mp3" data-lyrics="Song Lyrics
+Twinkle twinkle little star.
+How I wonder what you are.
+Up above the world so high.
+Like a diamond in the sky.
+Twinkle twinkle little star.
+How I wonder what you are.
+
+Twinkle twinkle little star.
+How I wonder what you are.
+Up above the world so high.
+Like a diamond in the sky.
+Twinkle twinkle little star.
+How I wonder what you are.">
+      <div class="rhyme-title">Twinkle Twinkle</div>
+      <div class="rhyme-preview">Lua's fav rhyme...</div>
+    </div>
+    <div class="rhyme-card" data-title="Lua lua yes papa" data-audio="rhyme2.mp3" data-lyrics="Lua , Lua!
+Yes papa?
+Eating sugar?
+No papa.
+Telling lies?
+No papa.
+Open your mouth!
+Ha ha ha! 
+
+">
+      <div class="rhyme-title">Lua lua yes papa</div>
+      <div class="rhyme-preview">Customized lyrics for lua...</div>
+    </div>
+    <div class="rhyme-card" data-title="Baba black sheep" data-audio="rhyme3.mp3" data-lyrics="Baa-baa black sheep, have you any wool?
+Yes sir, yes sir, three bags full
+One for the master, one for the dame
+One for the little boy who lives down the lane
+Baa-baa black sheep, have you any wool?
+Yes sir, yes sir, three bags full">
+      <div class="rhyme-title">Baba black sheep</div>
+      <div class="rhyme-preview">lua is my white sheep...</div>
+    </div>
+  </div>
+
+  <!-- Lightbox Viewer -->
+  <div id="rhymeViewer" class="rhyme-viewer">
+    <h2 id="viewerTitle">Rhyme Title</h2>
+    <audio id="viewerAudio" controls></audio>
+    <pre id="viewerLyrics">Lyrics will appear here.</pre>
+    <button class="close-rhyme" onclick="closeRhyme()">Close</button>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.rhyme-card');
+    const viewer = document.getElementById('rhymeViewer');
+    const viewerTitle = document.getElementById('viewerTitle');
+    const viewerAudio = document.getElementById('viewerAudio');
+    const viewerLyrics = document.getElementById('viewerLyrics');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const title = card.dataset.title;
+        const audio = card.dataset.audio;
+        const lyrics = card.dataset.lyrics;
+
+        viewerTitle.textContent = title;
+        viewerAudio.src = audio;
+        viewerLyrics.textContent = lyrics;
+
+        viewer.classList.add('active');
+      });
+    });
+
+    function closeRhyme() {
+      viewer.classList.remove('active');
+      viewerAudio.pause();
+      viewerAudio.currentTime = 0;
+    }
+  </script>
 </body>
 </html>
