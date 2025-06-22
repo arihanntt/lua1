@@ -5,15 +5,130 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Relationship Timeline</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .timeline-container {
+      position: relative;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+
+    .timeline-line {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background-color: white;
+      transform: translateX(-50%);
+    }
+
+    .timeline-entry {
+      position: relative;
+      margin: 40px 0;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border-left: 4px solid white;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-entry.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-entry.left {
+      left: 0;
+      margin-left: 0;
+      border-left: 4px solid white;
+    }
+
+    .timeline-entry.right {
+      left: 50%;
+      margin-left: 60px;
+      border-left: none;
+      border-right: 4px solid white;
+      text-align: right;
+    }
+
+    .timeline-date {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ffb3ff;
+    }
+
+    @media (max-width: 600px) {
+      .timeline-line {
+        left: 15px;
+      }
+
+      .timeline-entry,
+      .timeline-entry.right,
+      .timeline-entry.left {
+        margin-left: 30px;
+        left: 0 !important;
+        max-width: 90%;
+        text-align: left;
+        border-left: 4px solid white;
+        border-right: none;
+      }
+    }
+  </style>
 </head>
-<body style="background:black; color:white; padding:20px">
-  <a href="index.html" style="color:white; text-decoration:none;">← Back</a>
-  <h1>❤️ Relationship Timeline</h1>
-  <ul style="margin-top: 10px;">
-    <li><strong>Feb 17, 2007:</strong> Our moon phase synced 🌙</li>
-    <li><strong>May 9, 2014:</strong> First confession 💌</li>
-    <li><strong>Aug 20, 2021:</strong> First video call 💻</li>
-    <li><strong>Nov 11, 2023:</strong> Our hearts aligned ❤️</li>
-  </ul>
+<body class="page-container">
+  <a href="index.html" class="back-link">← Back</a>
+  <h1 style="text-align:center;">❤️ Our Journey Together</h1>
+  <div class="timeline-container">
+    <div class="timeline-line"></div>
+
+    <div class="timeline-entry left">
+      <div class="timeline-date">May 9th, 2025</div>
+      The day we started dating — and I haven’t stopped smiling since.
+    </div>
+
+    <div class="timeline-entry right">
+      <div class="timeline-date">May 22 , 2025</div>
+      We broke up but patchd up within 30mins cause we both cant live without each other.....
+    </div>
+
+    <div class="timeline-entry left">
+      <div class="timeline-date">June 2nd , 2025</div>
+      The first time i talked to her mother and fell in love with her even more (she wrote my name on her nails).
+    </div>
+
+    <div class="timeline-entry right">
+      <div class="timeline-date">June 8, 2025</div>
+      We video called for the first time and she slept on the call.
+    </div>
+
+    <div class="timeline-entry left">
+      <div class="timeline-date">Current update</div>
+      Im so in love with her and i just keep loving her more and more everyday 💫
+    </div>
+  </div>
+
+  <script>
+    const entries = document.querySelectorAll('.timeline-entry');
+    const observer = new IntersectionObserver((entriesObs) => {
+      entriesObs.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    entries.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
