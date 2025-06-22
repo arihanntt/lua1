@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Album</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .photo-block {
+      text-align: center;
+    }
+
+    .thumbnail {
+      width: 200px;
+      max-width: 95vw;
+      height: auto;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .thumbnail:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    .caption {
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #eee;
+      font-style: italic;
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 10px;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+
+    .close-btn,
+    .arrow-btn {
+      position: absolute;
+      color: white;
+      font-size: 2em;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .close-btn {
+      top: 20px;
+      right: 30px;
+    }
+
+    .arrow-btn.left {
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+    }
+
+    .arrow-btn.right {
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+    }
+
+    @media (max-width: 480px) {
+      .caption {
+        font-size: 1em;
+      }
+
+      .arrow-btn, .close-btn {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body class="page-container">
+  <a href="index.html" class="back-link">← Back</a>
+  <h1>📸 Our Photo Album</h1>
+  <p>Each memory is a universe of its own:</p>
+
+  <div class="gallery">
+    <div class="photo-block">
+      <img src="https://media.discordapp.net/attachments/1357856352885670036/1386420744979877950/image.jpg?ex=6859a470&is=685852f0&hm=d6ce194244ad2fb905dbdc29049ef63d72a778a7aade72e6a3a97ec13790f526&=&format=webp&width=1534&height=708" alt="Memory 1" class="thumbnail" data-full="https://media.discordapp.net/attachments/1357856352885670036/1386420744979877950/image.jpg?ex=6859a470&is=685852f0&hm=d6ce194244ad2fb905dbdc29049ef63d72a778a7aade72e6a3a97ec13790f526&=&format=webp&width=1534&height=708" />
+      <div class="caption">Our first video call 🌇</div>
+    </div>
+    <div class="photo-block">
+      <img src="https://media.discordapp.net/attachments/1357856352885670036/1386421568199983194/image.jpg?ex=6859a534&is=685853b4&hm=c48f44092ad333a8ecdf5da350fdb772e5b35b3f47d514da978703a2e1b72433&=&format=webp&width=638&height=838" alt="Memory 2" class="thumbnail" data-full="https://media.discordapp.net/attachments/1357856352885670036/1386421568199983194/image.jpg?ex=6859a534&is=685853b4&hm=c48f44092ad333a8ecdf5da350fdb772e5b35b3f47d514da978703a2e1b72433&=&format=webp&width=638&height=838" />
+      <div class="caption">The thing which made my heart skip a beat fr (1st) 🌌</div>
+    </div>
+    <div class="photo-block">
+      <img src="https://media.discordapp.net/attachments/1357856352885670036/1376638864583823590/1070087967294631976-i-1376633211844689990-pc-1357856352885670036-1323996.png?ex=6858fe1a&is=6857ac9a&hm=dceedcf29581a550a5b34693b9f517f0ec53ea9b2669fb48a1c25d2042e8f21f&=&format=webp&quality=lossless&width=568&height=838" alt="Memory 3" class="thumbnail" data-full="https://media.discordapp.net/attachments/1357856352885670036/1376638864583823590/1070087967294631976-i-1376633211844689990-pc-1357856352885670036-1323996.png?ex=6858fe1a&is=6857ac9a&hm=dceedcf29581a550a5b34693b9f517f0ec53ea9b2669fb48a1c25d2042e8f21f&=&format=webp&quality=lossless&width=568&height=838" />
+      <div class="caption">First "moonhug" hug and we spent hours tg first time☔</div>
+    </div>
+    <div class="photo-block">
+      <img src="https://media.discordapp.net/attachments/1357856352885670036/1386423323725926643/image.jpg?ex=6859a6d6&is=68585556&hm=a5d935db430687d4e6b248a748ad31406d862cbabf02d59bcfb78967660e9129&=&format=webp&width=1534&height=708" alt="Memory 4" class="thumbnail" data-full="https://media.discordapp.net/attachments/1357856352885670036/1386423323725926643/image.jpg?ex=6859a6d6&is=68585556&hm=a5d935db430687d4e6b248a748ad31406d862cbabf02d59bcfb78967660e9129&=&format=webp&width=1534&height=708" />
+      <div class="caption">My fav pic of lua (makes me feel like im her dad fr hehe) 🌙</div>
+    </div>
+    <div class="photo-block">
+      <img src="https://media.discordapp.net/attachments/1357856352885670036/1386424010438344735/FD9BB2EA-DD31-4950-ADD1-8162D99D3CC8.jpg?ex=6859a77a&is=685855fa&hm=6f82745e0f5e2fd7a9bea620e55d0f8d7d60db8df4bec2f2bb278b53258e733b&=&format=webp&width=471&height=838" alt="Memory 5" class="thumbnail" data-full="https://media.discordapp.net/attachments/1357856352885670036/1386424010438344735/FD9BB2EA-DD31-4950-ADD1-8162D99D3CC8.jpg?ex=6859a77a&is=685855fa&hm=6f82745e0f5e2fd7a9bea620e55d0f8d7d60db8df4bec2f2bb278b53258e733b&=&format=webp&width=471&height=838" />
+      <div class="caption">The thing which made my heart skip a beat fr (2nd) 📸</div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <span class="close-btn">&times;</span>
+    <span class="arrow-btn left">&#10094;</span>
+    <img id="lightbox-img" src="" alt="Enlarged Photo" />
+    <span class="arrow-btn right">&#10095;</span>
+  </div>
+
+  <script>
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.close-btn');
+    const leftArrow = document.querySelector('.arrow-btn.left');
+    const rightArrow = document.querySelector('.arrow-btn.right');
+
+    let currentIndex = 0;
+    const imageSources = Array.from(thumbnails).map(img => img.getAttribute('data-full'));
+
+    function openLightbox(index) {
+      currentIndex = index;
+      lightboxImg.src = imageSources[index];
+      lightbox.style.display = 'flex';
+    }
+
+    thumbnails.forEach((img, index) => {
+      img.addEventListener('click', () => openLightbox(index));
+    });
+
+    closeBtn.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+      lightboxImg.src = '';
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+        lightboxImg.src = '';
+      }
+    });
+
+    leftArrow.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + imageSources.length) % imageSources.length;
+      lightboxImg.src = imageSources[currentIndex];
+    });
+
+    rightArrow.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % imageSources.length;
+      lightboxImg.src = imageSources[currentIndex];
+    });
+  </script>
+</body>
+</html>
