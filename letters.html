@@ -2,19 +2,292 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Love Letters</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background: #0a0a0a;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ffcce0;
+    }
+
+    .letters-container {
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      align-items: center;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .letter {
+      width: 90%;
+      max-width: 400px;
+      height: 250px;
+      perspective: 1500px;
+      transform-origin: center center;
+      position: relative;
+      transition: transform 0.5s ease;
+    }
+
+    .letter.opened {
+      transform: scale(1.3);
+      z-index: 10;
+    }
+
+    .letter-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s ease;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .letter.opened .letter-inner {
+      transform: rotateY(180deg);
+    }
+
+    .letter-front,
+    .letter-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      backface-visibility: hidden;
+      box-shadow: 0 0 20px rgba(255,255,255,0.15);
+    }
+
+    .letter-front {
+      background: url('letter.jpg') no-repeat center center;
+      background-size: cover;
+    }
+
+    .letter-back {
+      background: #fff0f5;
+      color: #000;
+      transform: rotateY(180deg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .letter.opened .letter-back {
+      opacity: 1;
+    }
+
+    .letter-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #cc0066;
+      opacity: 0;
+      animation: fadeIn 1s forwards 0.5s;
+    }
+
+    .letter.opened .letter-title {
+      animation: fadeIn 1s forwards 0.5s;
+    }
+
+    .letter-content {
+      font-size: 1em;
+      line-height: 1.5em;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1s;
+    }
+
+    .letter.opened .letter-content {
+      animation: fadeIn 1s forwards 1s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      padding: 8px 20px;
+      background: #111;
+      color: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .letter.opened .back-btn {
+      display: inline-block;
+    }
+
+    /* Shared modal styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 0 20px #ff80aa;
+      animation: pop 0.4s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-content input {
+      padding: 10px;
+      width: 80%;
+      font-size: 1em;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    .modal-content button {
+      padding: 8px 20px;
+      font-size: 1em;
+      background: #ff99cc;
+      border: none;
+      border-radius: 6px;
+      color: black;
+      cursor: pointer;
+    }
+
+    @media (max-width: 500px) {
+      .letter {
+        height: 200px;
+      }
+    }
+  </style>
 </head>
-<body style="background:black; color:white; padding:20px">
-  <a href="index.html" style="color:white; text-decoration:none;">← Back</a>
-  <h1>💬 Love Letters</h1>
-  <p>Here’s one from me to you:</p>
-  <blockquote style="margin-top: 15px;">
-    My dearest Lua,  
-    Every day with you is a poem  
-    my soul recites with every beat.  
-    You’re the only story I want to write forever.  
-  </blockquote>
+<body>
+  <a href="index.html" class="back-link" style="color:#ccc;">← Back</a>
+  <h1>💌 Love Letters</h1>
+
+  <div class="letters-container">
+
+    <!-- Letter 1 -->
+    <div class="letter" id="letter1">
+      <div class="letter-inner">
+        <div class="letter-front" onclick="openModal('modal1')"></div>
+        <div class="letter-back">
+          <div class="letter-title">To My Universe</div>
+          <div class="letter-content">
+            Lua my baby my cutiepie , youre my everything... never think that ill leave u, youre my everything my lifeline MY EVERYTHING i love being with u so much mwa i love u so much.
+          </div>
+          <button class="back-btn" onclick="event.stopPropagation(); closeLetter(this)">← Back</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Letter 2 -->
+    <div class="letter" id="letter2">
+      <div class="letter-inner">
+        <div class="letter-front" onclick="openModal('modal2')"></div>
+        <div class="letter-back">
+          <div class="letter-title">Your Smile, My Light</div>
+          <div class="letter-content">
+            Your smile is my sunshine on cloudy days. I fall for it again and again — endlessly, hopelessly, beautifully.
+          </div>
+          <button class="back-btn" onclick="event.stopPropagation(); closeLetter(this)">← Back</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Letter 3 -->
+    <div class="letter" id="letter3">
+      <div class="letter-inner">
+        <div class="letter-front" onclick="openModal('modal3')"></div>
+        <div class="letter-back">
+          <div class="letter-title">Until Forever</div>
+          <div class="letter-content">
+            There will never be a day I don’t choose you. Through every season, every storm, every quiet morning — you are home.
+          </div>
+          <button class="back-btn" onclick="event.stopPropagation(); closeLetter(this)">← Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Modals (1 for each letter) -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <p>🔐 Enter arihant birthday in dd/mm/yy format to open Letter 1:</p>
+      <input type="password" id="pass1" />
+      <br>
+      <button onclick="checkPassword('pass1','140107','letter1','modal1')">Unlock</button>
+    </div>
+  </div>
+
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <p>🔐 Enter password to open Letter 2:</p>
+      <input type="password" id="pass2" />
+      <br>
+      <button onclick="checkPassword('pass2','smile77','letter2','modal2')">Unlock</button>
+    </div>
+  </div>
+
+  <div id="modal3" class="modal">
+    <div class="modal-content">
+      <p>🔐 Enter password to open Letter 3:</p>
+      <input type="password" id="pass3" />
+      <br>
+      <button onclick="checkPassword('pass3','forever01','letter3','modal3')">Unlock</button>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      document.getElementById(id).style.display = "flex";
+    }
+
+    function checkPassword(inputId, correctPass, letterId, modalId) {
+      const entered = document.getElementById(inputId).value;
+      if (entered === correctPass) {
+        document.getElementById(letterId).classList.add("opened");
+        document.getElementById(modalId).style.display = "none";
+      } else {
+        alert("❌ Wrong password!");
+      }
+    }
+
+    function closeLetter(btn) {
+      const letter = btn.closest('.letter');
+      letter.classList.remove('opened');
+    }
+
+    window.onclick = function(event) {
+      document.querySelectorAll('.modal').forEach(modal => {
+        if (event.target === modal) modal.style.display = "none";
+      });
+    };
+  </script>
 </body>
 </html>
