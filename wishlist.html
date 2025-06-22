@@ -2,19 +2,171 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Future Wishlist</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .wishlist-container {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .wish-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .wish-card:hover {
+      background: #2a2a2a;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      transform: scale(1.03);
+    }
+
+    .wish-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #ffd6f6;
+      margin-bottom: 10px;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #222;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+
+    .modal h2 {
+      margin-bottom: 10px;
+      color: #ffccff;
+    }
+
+    .modal p {
+      white-space: pre-wrap;
+      margin-bottom: 20px;
+    }
+
+    .modal img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .modal-close {
+      padding: 10px 20px;
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 500px) {
+      .wishlist-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-<body style="background:black; color:white; padding:20px">
-  <a href="index.html" style="color:white; text-decoration:none;">← Back</a>
-  <h1>🌍 Our Future Wishlist</h1>
-  <ul style="margin-top: 10px;">
-    <li>🌸 Cherry blossom picnic in Japan</li>
-    <li>🌄 Sunrise hike together</li>
-    <li>✈️ Surprise weekend getaway</li>
-    <li>🐶 Adopt a golden retriever named Luna</li>
-    <li>🏡 Dream house with star-shaped lights</li>
-  </ul>
+<body class="page-container">
+  <a href="index.html" class="back-link">← Back</a>
+  <h1 style="text-align:center;">🌍 Our Future Wishlist</h1>
+  <p style="text-align:center;">Tap a dream to see the details 💖</p>
+
+  <div class="wishlist-container">
+    <div class="wish-card"
+         data-title="Live in japan"
+         data-details="We will save up money and then buy a house in kyoto and live tg happily forever."
+         data-img="https://media.discordapp.net/attachments/1357856352885670036/1386433196681592883/images_18.jpeg?ex=6859b008&is=68585e88&hm=765c96db53e606496e16ef4502390ba8540c68e51af136d64bce4fa3df71c026&=&format=webp&width=344&height=229">
+      <div class="wish-title">Live in Japan </div>
+      <div class="wish-preview">living in kyoto,Japan...</div>
+    </div>
+
+    <div class="wish-card"
+         data-title="Kids 🏡"
+         data-details="2 kids. which we both will take care of hihi"
+         data-img="https://media.discordapp.net/attachments/1357856352885670036/1386434391814836296/image.png?ex=6859b125&is=68585fa5&hm=5c1a8e6de1a822ad872726e5e9d70a4b6da44dce561f4df5bba3b4a5e4770b9c&=&format=webp&quality=lossless&width=460&height=499">
+      <div class="wish-title">Kids 🏡</div>
+      <div class="wish-preview">our products...</div>
+    </div>
+
+    <div class="wish-card"
+         data-title="Coffe 🌌"
+         data-details="WE will open coffee cafe like this tg and after coming back from work everyday i will help u in cafe hihi."
+         data-img="https://media.discordapp.net/attachments/1357856352885670036/1386434945060175993/image.jpg?ex=6859b1a9&is=68586029&hm=a68b85264d7a405cd095b9067c07b66b2993a90969873a4c93365a1853577ff0&=&format=webp&width=584&height=438">
+      <div class="wish-title">Coffe</div>
+      <div class="wish-preview">coffe cafe in japan...</div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="wishModal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Wish Title</h2>
+      <img id="modalImage" src="" alt="Dream Image" />
+      <p id="modalDetails">Dream Description</p>
+      <button class="modal-close" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.wish-card');
+    const modal = document.getElementById('wishModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDetails = document.getElementById('modalDetails');
+    const modalImage = document.getElementById('modalImage');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        modalTitle.textContent = card.dataset.title;
+        modalDetails.textContent = card.dataset.details;
+        modalImage.src = card.dataset.img;
+        modal.style.display = 'flex';
+      });
+    });
+
+    function closeModal() {
+      modal.style.display = 'none';
+      modalImage.src = '';
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  </script>
 </body>
 </html>
